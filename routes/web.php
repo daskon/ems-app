@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(CompanyController::class)->group(function(){
+    Route::get('/companies', 'index')->name('companies');
+    Route::get('/companies/create', 'create');
+    Route::post('/companies', 'store');
+    Route::get('/company','show')->name('company.show');
+});
 
-Auth::routes();
+Route::controller(EmployeeController::class)->group(function(){
+    Route::get('/employees', 'index')->name('employees');
+    Route::get('/employee/create', 'create');
+    Route::post('/employee', 'store');
+});
