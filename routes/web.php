@@ -37,7 +37,7 @@ Route::middleware(['auth'])->controller(CompanyController::class)->group(functio
 });
 
 Route::middleware(['auth'])->controller(EmployeeController::class)->group(function(){
-    Route::get('/employees', 'index')->name('employees');
+    Route::get('employees', 'index')->name('employees');
     Route::post('employee-store', 'store')->name('emp.store');
     Route::post('employee-edit', 'update')->name('emp.update');
     Route::post('employee-destroy', 'destroy')->name('emp.destroy');
