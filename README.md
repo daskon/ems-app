@@ -1,4 +1,4 @@
-<h1><center><b>Employee Management - ERP  using Laravel 9</b></center></h1>
+<h1><center><b>Employee and Company Management - CRM  using Laravel 9</b></center></h1>
 
 <h3>Tested Environment</h3>
 <ul type="disc">
