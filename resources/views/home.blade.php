@@ -12,9 +12,9 @@
                         <div class="align-self-center">
                           <i class="icon-pencil primary font-large-2 float-left"></i>
                         </div>
-                        <div class="media-body text-right">
-                          <h3>33</h3>
-                          <a href="{{ url('employees') }}" class="text-white">
+                        <div class="media-body text-right" style="cursor: pointer">
+                          <h3>{{$count}}</h3>
+                          <a href="{{ url('employees') }}" class="text-white" >
                           <span>Employees</span>
                           </a>
                         </div>

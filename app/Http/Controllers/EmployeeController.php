@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Throwable;
@@ -80,7 +81,7 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreEmployeeRequest $request)
+    public function update(UpdateEmployeeRequest $request)
     {
         Employee::find($request->emp_id)->update([
             'first_name' => $request->update_first_name,

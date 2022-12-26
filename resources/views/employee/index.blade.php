@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-              Company Information
+              Employees List
             </div>
             @if(session()->has('message'))
               <div class="alert alert-success" role="alert">
@@ -145,10 +145,10 @@
                                     <input type="hidden" id="delete_emp_id" name="delete_emp_id" />
                                     <div class="modal-footer ">
                                         <button type="submit" class="btn btn-success" >
-                                            <span class=""></span> Yes
+                                            <span class=""></span>Yes
                                         </button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">
-                                            <span class="glyphicon glyphicon-remove"></span> No
+                                            <span class="glyphicon glyphicon-remove"></span>No
                                         </button>
                                     </div>
                                 </form>
@@ -180,8 +180,6 @@
                 });
 
                 $("[data-toggle=tooltip]").tooltip();
-
-
             });
         </script>
     </div>
