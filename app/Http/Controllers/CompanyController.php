@@ -65,7 +65,7 @@ class CompanyController extends Controller
     {
         if($file = $request->file('logo')){
             $name= time() . rand(1, 1000) . '.' . $file->getClientOriginalExtension();
-            Storage::disk('public')->put($name, $request->file('logo'));
+            $file->move(public_path('img'), $name);
         }
 
         $company = new Company();
@@ -86,7 +86,13 @@ class CompanyController extends Controller
      */
     public function show()
     {
-        return view('company.info');
+        try {
+            $company = Company::all();
+        } catch(Throwable $e) {
+            report($e);
+            return false;
+        }
+        return view('company.info',['company' => $company]);
     }
 
     /**
