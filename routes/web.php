@@ -30,10 +30,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 Route::controller(CompanyController::class)->group(function(){
-    Route::get('/companies', 'index')->name('companies');
-    Route::get('/companies/create', 'create');
-    Route::post('/companies', 'store');
-    Route::get('/company','show')->name('company.show');
+    Route::get('companies', 'index')->name('companies');
+    Route::post('company-store', 'store')->name('store');
+    Route::post('company-update', 'update')->name('update');
+    Route::get('company','show')->name('company.show');
 });
 
 Route::controller(EmployeeController::class)->group(function(){

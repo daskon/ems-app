@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCompanyRequest;
+use App\Models\Company;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class CompanyController extends Controller
 {
@@ -13,7 +16,33 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('company.index');
+        $id = '';
+        $name = '';
+        $email = '';
+        $website = '';
+
+        $company = Company::all();
+
+        try{
+            foreach($company as $item)
+            {
+                $id = $item->id;
+                $name = $item->name;
+                $email = $item->email;
+                $website = $item->website;
+            }
+        } catch(Throwable $e) {
+            report($e);
+            return false;
+        }
+
+        return view('company.index',[
+                                        'id' => $id,
+                                        'name' => $name,
+                                        'email' => $email,
+                                        'website' => $website,
+                                        'isEmpty' => Company::exists()
+                                    ]);
     }
 
     /**
@@ -27,14 +56,26 @@ class CompanyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store company information in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request)
     {
-        //
+        if($file = $request->file('logo')){
+            $name= time() . rand(1, 1000) . '.' . $file->getClientOriginalExtension();
+            Storage::disk('public')->put($name, $request->file('logo'));
+        }
+
+        $company = new Company();
+        $company->name = $request->name;
+        $company->email = $request->email;
+        $company->logo = $name ? $name : '';
+        $company->website = $request->website;
+        $company->save();
+
+        return redirect()->back()->with('message', 'Successfully Created Company');
     }
 
     /**
@@ -66,9 +107,15 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCompanyRequest $request)
     {
-        //
+        Company::find($request->id)
+                    ->update([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'website' => $request->website
+                    ]);
+        return redirect()->back()->with('message', 'Successfully Updated Company');
     }
 
     /**
