@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use Throwable;
 
 class EmployeeController extends Controller
 {
@@ -13,7 +16,13 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.index');
+        try {
+            $emp = Employee::paginate(10);
+        } catch(Throwable $e) {
+            report($e);
+            return false;
+        }
+        return view('employee.index', ['emp' => $emp]);
     }
 
     /**
@@ -32,9 +41,14 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        //
+        $emp = new Employee();
+        $emp->first_name = $request->first_name;
+        $emp->last_name = $request->last_name;
+        $emp->save();
+
+        return redirect()->back()->with('message', 'Successfully Created Employee');
     }
 
     /**
@@ -54,7 +68,7 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(StoreEmployeeRequest $request)
     {
         //
     }
@@ -66,9 +80,13 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreEmployeeRequest $request)
     {
-        //
+        Employee::find($request->emp_id)->update([
+            'first_name' => $request->update_first_name,
+            'last_name' => $request->update_last_name,
+        ]);
+        return redirect()->back()->with('message', 'Successfully Updated Employee');
     }
 
     /**
@@ -77,8 +95,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        Employee::find($request->delete_emp_id)->delete();
+        return redirect()->back()->with('message', 'Successfully Deleted Employee');
     }
 }

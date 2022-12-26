@@ -29,15 +29,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::controller(CompanyController::class)->group(function(){
+Route::middleware(['auth'])->controller(CompanyController::class)->group(function(){
     Route::get('companies', 'index')->name('companies');
     Route::post('company-store', 'store')->name('store');
     Route::post('company-update', 'update')->name('update');
     Route::get('company','show')->name('company.show');
 });
 
-Route::controller(EmployeeController::class)->group(function(){
+Route::middleware(['auth'])->controller(EmployeeController::class)->group(function(){
     Route::get('/employees', 'index')->name('employees');
-    Route::get('/employee/create', 'create');
-    Route::post('/employee', 'store');
+    Route::post('employee-store', 'store')->name('emp.store');
+    Route::post('employee-edit', 'update')->name('emp.update');
+    Route::post('employee-destroy', 'destroy')->name('emp.destroy');
 });
